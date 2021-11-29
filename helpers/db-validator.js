@@ -10,47 +10,58 @@ const esRoleValido = async (role = '') => {
 
 const emailExiste = async (correo = '') => {
     // Verificar si el correo existe
-    const existeEmail =  await Usuario.findOne({ correo });
+    const existeEmail = await Usuario.findOne({ correo });
     if (existeEmail)
-        throw new Error ( `El correo ${ correo } ya está registrado`);
+        throw new Error(`El correo ${correo} ya está registrado`);
 }
 
-const existeUsuarioPorId = async( id ) => {
-    
+const existeUsuarioPorId = async (id) => {
+
     // Verificar si el correo existe
-    const existeUsuario =  await Usuario.findById( id );
+    const existeUsuario = await Usuario.findById(id);
     if (!existeUsuario)
-        throw new Error ( `No existe el id ${ id }`);
+        throw new Error(`No existe el id ${id}`);
 }
 
-const existeCategoria = async( id ) => {
+const existeCategoria = async (id) => {
 
-    const existeCategoria =  await Categoria.findById( id );
+    const existeCategoria = await Categoria.findById(id);
     if (!existeCategoria)
-        throw new Error ( `No existe el id ${ id }`);
+        throw new Error(`No existe el id ${id}`);
 }
 
-const existeNombreCategoria = async( nombre = '') => {
+const existeNombreCategoria = async (nombre = '') => {
     // Verificar si el nombre existe
     nombre = nombre.toUpperCase();
-    const existeNombre =  await Categoria.findOne({ nombre });
+    const existeNombre = await Categoria.findOne({ nombre });
     if (existeNombre)
-        throw new Error ( `El nombre ${ nombre } ya está registrado`);
+        throw new Error(`El nombre ${nombre} ya está registrado`);
 }
 
-const existeProducto = async( id ) => {
+const existeProducto = async (id) => {
 
-    const existeProducto =  await Producto.findById( id );
+    const existeProducto = await Producto.findById(id);
     if (!existeProducto)
-        throw new Error ( `No existe el id ${ id }`);
+        throw new Error(`No existe el id ${id}`);
 }
 
-const existeNombreProducto = async( nombre = '') => {
+const existeNombreProducto = async (nombre = '') => {
     // Verificar si el nombre existe
     nombre = nombre.toUpperCase();
-    const existeNombre =  await Producto.findOne({ nombre });
+    const existeNombre = await Producto.findOne({ nombre });
     if (existeNombre)
-        throw new Error ( `El nombre ${ nombre } ya está registrado`);
+        throw new Error(`El nombre ${nombre} ya está registrado`);
+}
+
+/**
+ * Validar colecciones permitidas
+ */
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`La colección ${coleccion} no es permitida, ${colecciones}`);
+    }
+    return true;
 }
 
 module.exports = {
@@ -60,5 +71,6 @@ module.exports = {
     existeCategoria,
     existeNombreCategoria,
     existeProducto,
-    existeNombreProducto
+    existeNombreProducto,
+    coleccionesPermitidas
 }
